@@ -1,13 +1,13 @@
 // Chemi Surveys & Mapping Consultants — Database Schema
 // Run: npx prisma migrate dev --name init
-// Provider: MySQL (compatible with Supabase's MySQL-on-Postgres bridge or any standard MySQL host e.g. PlanetScale, Railway, local MySQL)
+// Provider: POSTGRESQL (compatible with Supabase's on Postgres bridge(e.g Render)
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
