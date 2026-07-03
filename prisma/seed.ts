@@ -16,47 +16,63 @@ async function main() {
   const staff = [
     {
       fullName: "John Muiruri Gachemi",
-      email: "johnmuiruri68@gmail.com",
+      email: "muirawray68gmail.com",  // change to new email address 
       phone: "0703676856",
       role: Role.ADMIN,
       jobTitle: "Land Surveyor (Founder)",
-      password: "ChangeMe123!", // CHANGE before going live
+      password: "johnmoh68@", // change to new password
     },
     {
       fullName: "Anthony Nd'ungu Gachemi",
-      email: "anthony.gachemi@chemisurveys.co.ke",
+      email: "anthonygacemisurvey@gmail.com", //change to new email address
       phone: "0713772948",
       role: Role.STAFF,
       jobTitle: "Land Surveyor",
-      password: "ChangeMe123!",
+      password: "&AnthonyGacemi21", // change to new password
     },
     {
       fullName: "John Malele",
-      email: "john.malele@chemisurveys.co.ke",
+      email: "johnmalelecs@gmail.com",
       phone: "0707277814",
       role: Role.STAFF,
       jobTitle: "Fieldwork Operations",
-      password: "ChangeMe123!",
+      password: "marley77$", // change to new password
     },
   ];
 
-  for (const s of staff) {
-    const passwordHash = await bcrypt.hash(s.password, 10);
+  for (const user of staff) {
+    const hashedPassword = await bcrypt.hash(user.password, 10);
     await prisma.user.upsert({
-      where: { email: s.email },
-      update: {},
+      where: { email: user.email }, //assume email is unique
+      update: {
+        fullName: user.fullName,
+        phone: user.phone,
+        role: user.role,
+        jobTitle: user.jobTitle,
+        passwordHash: hashedPassword,
+      },
       create: {
-        fullName: s.fullName,
-        email: s.email,
-        phone: s.phone,
-        role: s.role,
-        jobTitle: s.jobTitle,
-        passwordHash,
+        fullName: user.fullName,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        jobTitle: user.jobTitle,
+        passwordHash: hashedPassword,
       },
     });
-  }
+    console.log(`Upserted user: ${user.email}`);
+}
 
-  console.log("Seeding service catalogue...");
+  console.log("seeding finished.");
+
+main()
+   .catch((e) => {
+      console.error("Error during seeding:", e);
+      process.exit(1);
+   })
+   .finally(async () => {
+      await prisma.$disconnect();
+   });
 
   const services = [
     {
